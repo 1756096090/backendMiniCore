@@ -4,7 +4,6 @@ using MongoDB.Driver;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -16,10 +15,8 @@ builder.Services.AddSingleton<MongoDBContext>();
 builder.Services.AddSingleton<IMongoDatabase>(sp =>
 {
     var context = sp.GetService<MongoDBContext>();
-    return context.GetDatabase(); 
-
+    return context.GetDatabase();
 });
-
 
 builder.Services.AddCors(options =>
 {
@@ -28,17 +25,14 @@ builder.Services.AddCors(options =>
         {
             builder.AllowAnyOrigin();
             builder.AllowAnyMethod();
-            builder.AllowAnyMethod();
-        }
-        
-        );
+            builder.AllowAnyHeader();  // Se añadió AllowAnyHeader para permitir todos los encabezados
+        });
 });
-
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsProduction())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction()) // Se eliminó el paréntesis extra
 {
     app.UseSwagger();
     app.UseSwaggerUI();
