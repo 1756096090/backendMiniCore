@@ -2,18 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "backendMiniCore.csproj",
+      "src": "api/Program.cs",
       "use": "@vercel/dotnet"
     }
   ],
   "routes": [
     {
-      "src": "/swagger/(.*)",
-      "dest": "/swagger/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "api/Program.cs"
     }
   ]
 }
