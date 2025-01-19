@@ -14,7 +14,7 @@
   - **Pronósticos del tiempo**.
 
 
-## ⚙️ Configuración de MongoDB
+##  Configuración de MongoDB
 
 1. **MongoDBSettings.cs**: 
    - Se encuentra en `Config/MongoDBSettings.cs`.
@@ -37,3 +37,22 @@
        var context = sp.GetService<MongoDBContext>();
        return context.GetDatabase();
    });
+##Modelos y Controladores
+Department:
+
+Modelo: Models/Department.cs
+Define la estructura de los datos para el departamento.
+Controlador: Controllers/DepartmentController.cs
+Proporciona los endpoints para la gestión de departamentos (CRUD).
+Employee:
+
+Modelo: Models/Employee.cs
+Define la estructura de los datos para los empleados.
+Controlador: Controllers/EmployeeController.cs
+Proporciona los endpoints para gestionar los registros de empleados (CRUD).
+Expense:
+
+Modelo: Models/Expense.cs
+Define la estructura de los datos para los gastos.
+Controlador: Controllers/ExpenseController.cs
+Proporciona los endpoints para el seguimiento de gastos (CRUD).
