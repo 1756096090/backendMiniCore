@@ -1,24 +1,29 @@
-# Usar la imagen del SDK de .NET 8.0
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+# Establece la imagen base de .NET SDK
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 
-# Establecer el directorio de trabajo
+# Establece el directorio de trabajo
 WORKDIR /app
 
-# Copiar los archivos del proyecto
-COPY . /app/
+# Copia los archivos del proyecto al contenedor
+COPY . .
 
-# Restaurar dependencias
+# Restaura las dependencias
 RUN dotnet restore
 
-# Construir el proyecto
-RUN dotnet build -c Release
-
-# Publicar el proyecto
+# Publica el proyecto
 RUN dotnet publish -c Release -o /app/publish
 
-# Usar la imagen de ASP.NET para la ejecución
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
+# Establece la imagen base para la ejecución (runtime)
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+
+# Establece el directorio de trabajo
 WORKDIR /app
+
+# Copia los archivos publicados del contenedor anterior
 COPY --from=build /app/publish .
 
-ENTRYPOINT ["dotnet", "backendMiniCore.dll"]
+# Expone el puerto que utiliza tu aplicación
+EXPOSE 80
+
+# Establece el comando para ejecutar la aplicación
+ENTRYPOINT ["dotnet", "MiAplicacion.dll"]
