@@ -5,7 +5,7 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
 
 # Copia el archivo de proyecto (ajusta la ruta si es necesario)
-COPY ./MiProyecto/*.csproj ./
+COPY ./backendMiniCore/*.csproj ./
 
 # Restaura las dependencias
 RUN dotnet restore
