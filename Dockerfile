@@ -1,25 +1,19 @@
-# Usa la imagen base de .NET SDK para la construcción
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-
-# Establece el directorio de trabajo
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-
-# Copia el archivo de proyecto y restaura las dependencias
-COPY ./backendMiniCore/backendMiniCore.csproj ./backendMiniCore/
-RUN dotnet restore ./backendMiniCore/backendMiniCore.csproj
-
-# Copia el resto del código fuente y construye la aplicación
-COPY . ./
-RUN dotnet publish ./backendMiniCore -c Release -o out
-
-# Usa la imagen base para ejecutar la aplicación
-FROM mcr.microsoft.com/dotnet/aspnet:9.0
-
-WORKDIR /app
-COPY --from=build /app/out .
-
-# Expone el puerto 80
 EXPOSE 80
 
-# Ejecuta la aplicación
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY ["backendMiniCore/backendMiniCore.csproj", "backendMiniCore/"]
+RUN dotnet restore "backendMiniCore/backendMiniCore.csproj"
+COPY . .
+WORKDIR "/src/backendMiniCore"
+RUN dotnet build "backendMiniCore.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "backendMiniCore.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "backendMiniCore.dll"]
