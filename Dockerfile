@@ -4,8 +4,10 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 # Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia el archivo de proyecto y restaura las dependencias
-COPY *.csproj ./
+# Copia el archivo de proyecto (ajusta la ruta si es necesario)
+COPY ./MiProyecto/*.csproj ./
+
+# Restaura las dependencias
 RUN dotnet restore
 
 # Copia el resto del código fuente y construye la aplicación
