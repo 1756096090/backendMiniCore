@@ -40,11 +40,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-        c.RoutePrefix = string.Empty;  // Make Swagger UI available at the root URL (e.g., https://your-app-url/)
-    });
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
